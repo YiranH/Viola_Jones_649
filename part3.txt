@@ -1,0 +1,15 @@
+Criterion: emp
+Total accuracy: 0.000000 (0/2473)
+False Positive: 0.000000 (0/2001)
+False Negative: 0.002119 (1/472)
+
+Criterion: fp
+Total accuracy: 0.000404 (1/2473)
+False Positive: 0.000000 (0/2001)
+False Negative: 0.000000 (0/472)
+
+Criterion: fn
+Total accuracy: 0.000000 (0/2473)
+False Positive: 0.000000 (0/2001)
+False Negative: 0.002119 (1/472)
+

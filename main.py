@@ -74,11 +74,11 @@ def part2():
     test_negs_integral = [get_integral_image(image) for image in test_negs]
 
     classi_num = 10
-    classifiers = learn_adaboost(train_poses_integral, train_negs_integral, classi_num, 'emp')
+    # classifiers = learn_adaboost(train_poses_integral, train_negs_integral, classi_num, 'emp')
 
-    f = open('classifier_10', 'wb')
-    pickle.dump(classifiers, f)
-    f.close()
+    # f = open('classifier_10', 'rb')
+    # classifiers = pickle.load(f)
+    # f.close()
 
     with open('part2.txt','wt') as file:
         for round in [1,3,5,10]:
@@ -88,7 +88,7 @@ def part2():
             for i in range(len(classifiers[:round])):
                 feature = classifiers[i]
                 print('Feature number %d:' % (i),file=file)
-                print('Type: %s' % feature.name[3:-1],file=file)
+                print('Type: %s' % str(feature.type),file=file)
                 print('Position: %s' % str(feature.t_left),file=file)
                 print('Width: %d' % feature.width,file=file)
                 print('Height: %d' % feature.height,file=file)
@@ -158,21 +158,24 @@ def part2():
                 example[t_left_np_3[1]: b_right_np_3[1], t_left_np_3[0]: b_right_np_3[0]] = 0.
                 example[t_left_np_4[1]: b_right_np_4[1], t_left_np_4[0]: b_right_np_4[0]] = 0.
 
-            example = Image.fromarray(example * 255.).resize((100, 100))
-            example.save('image_of_round_' + str(round))
+            image = Image.fromarray(example * 255.).resize((100, 100))
+            image = image.convert("L")
+            image.save('image_of_round_' + str(round)+'.png')
 
             accuracy, fp, fn = find_acc(classifiers[:round], test_poses_integral,test_negs_integral)
 
-            print('Total accuracy: %f (%d/%d)', (accuracy / len(test_poses_integral+test_negs_integral), accuracy, len(test_poses_integral+test_negs_integral)),file=file)
-            print('False Positive: %f (%d/%d)', (fp / len(test_negs_integral), fp, len(test_negs_integral)),file=file)
-            print('False Negative: %f (%d/%d)\n\n', (fn / len(test_poses_integral), fn, len(test_poses_integral)),file=file)
+
+
+            print('Total accuracy: %f (%d/%d)' % (accuracy / len(test_poses_integral+test_negs_integral), accuracy, len(test_poses_integral+test_negs_integral)),file=file)
+            print('False Positive: %f (%d/%d)' % (fp / len(test_negs_integral), fp, len(test_negs_integral)),file=file)
+            print('False Negative: %f (%d/%d)\n\n' % (fn / len(test_poses_integral), fn, len(test_poses_integral)),file=file)
 
 
 
 def part3():
-    # with open('part3.txt','wt') as file:
-    #     sys.stdout = file
-        for criterion in ['fp', 'fn']:
+    with open('part3.txt','wt') as file:
+        sys.stdout = file
+        for criterion in ['emp','fp','fn']:
             pos_training_path = 'dataset/trainset/faces'
             neg_training_path = 'dataset/trainset/non-faces'
             pos_testing_path = 'dataset/testset/faces'
@@ -187,25 +190,27 @@ def part3():
             test_poses_integral = [get_integral_image(image) for image in test_poses]
             test_negs_integral = [get_integral_image(image) for image in test_negs]
 
-            classi_num = 5
-            classifiers = learn_adaboost(train_poses_integral, train_negs_integral, classi_num, criterion)
+            # classi_num = 5
+            # classifiers = learn_adaboost(train_poses_integral, train_negs_integral, classi_num, criterion)
 
-            f = open('classifier_' + str(criterion), 'wb')
-            pickle.dump(classifiers, f)
-            f.close()
+            # f = open('classifier_' + str(criterion), 'rb')
+            # classifiers = pickle.load(f)
+            # f.close()
 
-            # accuracy, fp, fn = find_acc(classifiers, test_poses_integral, test_negs_integral)
-            # print('Criterion: %s' % criterion)
-            # print('Total accuracy: %f (%d/%d)', (accuracy / len(test_poses_integral + test_negs_integral), accuracy,
-            #                                      len(test_poses_integral + test_negs_integral)))
-            # print('False Positive: %f (%d/%d)', (fp / len(test_negs_integral), fp, len(test_negs_integral)))
-            # print('False Negative: %f (%d/%d)\n', (fn / len(test_poses_integral), fn, len(test_poses_integral)))
+            accuracy, fp, fn = find_acc(classifiers, test_poses_integral, test_negs_integral)
+
+
+            print('Criterion: %s' % criterion)
+            print('Total accuracy: %f (%d/%d)' % (accuracy / len(test_poses_integral + test_negs_integral), accuracy,
+                                                 len(test_poses_integral + test_negs_integral)))
+            print('False Positive: %f (%d/%d)' % (fp / len(test_negs_integral), fp, len(test_negs_integral)))
+            print('False Negative: %f (%d/%d)\n' % (fn / len(test_poses_integral), fn, len(test_poses_integral)))
 
 
 
 
 if __name__ == "__main__":
-    # part1()
-    # part2()
+    part1()
+    part2()
     part3()
 

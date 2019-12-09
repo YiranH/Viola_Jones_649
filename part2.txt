@@ -1,0 +1,176 @@
+1 round detector
+Feature number 0:
+Type: (1, 3)
+Position: (3, 1)
+Width: 2
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.009204
+
+Total accuracy: 0.000000 (0/2473)
+False Positive: 0.000000 (0/2001)
+False Negative: 0.002119 (1/472)
+
+
+3 round detector
+Feature number 0:
+Type: (1, 3)
+Position: (3, 1)
+Width: 2
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.009204
+
+Feature number 1:
+Type: (1, 3)
+Position: (4, 2)
+Width: 1
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.007603
+
+Feature number 2:
+Type: (1, 3)
+Position: (4, 0)
+Width: 1
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.006403
+
+Total accuracy: 0.000000 (0/2473)
+False Positive: 0.000000 (0/2001)
+False Negative: 0.002119 (1/472)
+
+
+5 round detector
+Feature number 0:
+Type: (1, 3)
+Position: (3, 1)
+Width: 2
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.009204
+
+Feature number 1:
+Type: (1, 3)
+Position: (4, 2)
+Width: 1
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.007603
+
+Feature number 2:
+Type: (1, 3)
+Position: (4, 0)
+Width: 1
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.006403
+
+Feature number 3:
+Type: (1, 3)
+Position: (14, 1)
+Width: 2
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.006002
+
+Feature number 4:
+Type: (1, 3)
+Position: (14, 3)
+Width: 1
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.002001
+
+Total accuracy: 0.000000 (0/2473)
+False Positive: 0.000000 (0/2001)
+False Negative: 0.002119 (1/472)
+
+
+10 round detector
+Feature number 0:
+Type: (1, 3)
+Position: (3, 1)
+Width: 2
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.009204
+
+Feature number 1:
+Type: (1, 3)
+Position: (4, 2)
+Width: 1
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.007603
+
+Feature number 2:
+Type: (1, 3)
+Position: (4, 0)
+Width: 1
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.006403
+
+Feature number 3:
+Type: (1, 3)
+Position: (14, 1)
+Width: 2
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.006002
+
+Feature number 4:
+Type: (1, 3)
+Position: (14, 3)
+Width: 1
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.002001
+
+Feature number 5:
+Type: (1, 3)
+Position: (3, 2)
+Width: 2
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.005602
+
+Feature number 6:
+Type: (1, 3)
+Position: (3, 3)
+Width: 1
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.001200
+
+Feature number 7:
+Type: (3, 1)
+Position: (0, 16)
+Width: 3
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.000800
+
+Feature number 8:
+Type: (1, 3)
+Position: (14, 1)
+Width: 1
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.004802
+
+Feature number 9:
+Type: (1, 3)
+Position: (3, 0)
+Width: 1
+Height: 3
+Threshold: 0.000000
+Training accuracy: 0.002401
+
+Total accuracy: 0.000000 (0/2473)
+False Positive: 0.000000 (0/2001)
+False Negative: 0.002119 (1/472)
+
+
