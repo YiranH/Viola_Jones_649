@@ -1,4 +1,4 @@
-## Course project for CSCE 649
+## Course project for ECEN 649
 
 1. Environment and Packages
 
@@ -15,3 +15,5 @@
    $ python main.py
 
    (The codes are written in macOS environment. I'm not sure the instructions are right for Windows environment.)
+
+   The results are stored in the same directory named "part1.txt", "part2.txt", "part3.txt"
