@@ -1,0 +1,7 @@
+The total number of Haar Features is: 26168.
+
+There are 7440 type two_vertical features.
+There are 7440 type two_horizontal features.
+There are 3844 type three_vertical features.
+There are 3844 type three_horizontal features.
+There are 3600 type four features.
