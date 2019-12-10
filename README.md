@@ -4,7 +4,7 @@
 
    The code is implemented in Python 3.6.1. 
 
-   To run the code, you need to install 4 packages: numpy, pillow, matplotlib, scikit-learn and pickle. 
+   To run the code, you need to install 4 packages: numpy, pillow, matplotlib and pickle. 
 
    Numpy is used for efficient numerical calculations. 
 
