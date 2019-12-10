@@ -1,53 +1,13 @@
 from haar import *
 from adaboost import *
+from helpers import *
+from cascade import *
+
 import sys
-import pickle
+from collections import defaultdict
 
 import os
 from PIL import Image
-
-def load_example(path):
-    images = []
-    for _file in os.listdir(path):
-        if _file.endswith('.png'):
-            example_arr = np.array(Image.open((os.path.join(path, _file))), dtype=np.float64)
-            example_arr /= example_arr.max()
-            images.append(example_arr)
-    return images
-
-def find_acc(classifiers, test_poses_integral,test_negs_integral):
-
-    test_integral = test_poses_integral + test_negs_integral
-    for i in range(len(test_integral)):
-        image = test_integral[i]
-        cop1 = 0.0
-        cop2 = 0.0
-        accuracy = 0.0
-        fp = 0.0
-        fn = 0.0
-        for feature in classifiers:
-            simple_guess = feature.feature_classifier(image)
-            cop1 += simple_guess * feature.alpha
-            cop2 += 0.5 * feature.alpha
-
-        if cop1 >= cop2:
-            guess = 1
-        else:
-            guess = 0
-
-        if i < len(test_poses_integral) and guess == 1:
-            accuracy += 1
-        elif i < len(test_poses_integral) and guess == 0:
-            fp += 1
-        elif i > len(test_poses_integral) and guess == 0:
-            accuracy += 1
-        elif i > len(test_poses_integral) and guess == 1:
-            fn += 1
-
-    return accuracy, fp, fn
-
-
-
 
 def part1():
     with open('part1.txt','wt') as file:
@@ -74,11 +34,10 @@ def part2():
     test_negs_integral = [get_integral_image(image) for image in test_negs]
 
     classi_num = 10
-    # classifiers = learn_adaboost(train_poses_integral, train_negs_integral, classi_num, 'emp')
+    classifiers = learn_adaboost(train_poses_integral, train_negs_integral, classi_num, 'emp')
 
-    # f = open('classifier_10', 'rb')
-    # classifiers = pickle.load(f)
-    # f.close()
+
+
 
     with open('part2.txt','wt') as file:
         for round in [1,3,5,10]:
@@ -162,7 +121,7 @@ def part2():
             image = image.convert("L")
             image.save('image_of_round_' + str(round)+'.png')
 
-            accuracy, fp, fn = find_acc(classifiers[:round], test_poses_integral,test_negs_integral)
+            accuracy, fp, fn, tp, tn,_ = find_acc(classifiers[:round], test_poses_integral,test_negs_integral)
 
 
 
@@ -174,7 +133,6 @@ def part2():
 
 def part3():
     with open('part3.txt','wt') as file:
-        sys.stdout = file
         for criterion in ['emp','fp','fn']:
             pos_training_path = 'dataset/trainset/faces'
             neg_training_path = 'dataset/trainset/non-faces'
@@ -190,27 +148,82 @@ def part3():
             test_poses_integral = [get_integral_image(image) for image in test_poses]
             test_negs_integral = [get_integral_image(image) for image in test_negs]
 
-            # classi_num = 5
-            # classifiers = learn_adaboost(train_poses_integral, train_negs_integral, classi_num, criterion)
-
-            # f = open('classifier_' + str(criterion), 'rb')
-            # classifiers = pickle.load(f)
-            # f.close()
-
-            accuracy, fp, fn = find_acc(classifiers, test_poses_integral, test_negs_integral)
+            classi_num = 5
+            classifiers = learn_adaboost(train_poses_integral, train_negs_integral, classi_num, criterion)
 
 
-            print('Criterion: %s' % criterion)
+
+            accuracy, fp, fn, tp, tn,_ = find_acc(classifiers, test_poses_integral, test_negs_integral)
+
+
+            print('Criterion: %s' % criterion,file=file)
             print('Total accuracy: %f (%d/%d)' % (accuracy / len(test_poses_integral + test_negs_integral), accuracy,
-                                                 len(test_poses_integral + test_negs_integral)))
-            print('False Positive: %f (%d/%d)' % (fp / len(test_negs_integral), fp, len(test_negs_integral)))
-            print('False Negative: %f (%d/%d)\n' % (fn / len(test_poses_integral), fn, len(test_poses_integral)))
+                                                 len(test_poses_integral + test_negs_integral)),file=file)
+            print('False Positive: %f (%d/%d)' % (fp / len(test_negs_integral), fp, len(test_negs_integral)),file=file)
+            print('False Negative: %f (%d/%d)\n' % (fn / len(test_poses_integral), fn, len(test_poses_integral)),file=file)
 
 
+def part4():
+    with open('part4.txt','wt') as file:
+        pos_training_path = 'dataset/trainset/faces'
+        neg_training_path = 'dataset/trainset/non-faces'
+        pos_testing_path = 'dataset/testset/faces'
+        neg_testing_path = 'dataset/testset/non-faces'
+
+        train_poses = load_example(pos_training_path)
+        train_negs = load_example(neg_training_path)
+        test_poses = load_example(pos_testing_path)
+        test_negs = load_example(neg_testing_path)
+        train_poses_integral = [get_integral_image(image) for image in train_poses]
+        train_negs_integral = [get_integral_image(image) for image in train_negs]
+        test_poses_integral = [get_integral_image(image) for image in test_poses]
+        test_negs_integral = [get_integral_image(image) for image in test_negs]
+
+        classifiers = learn_cascade(train_poses_integral, train_negs_integral, 3)
+
+
+        accuracy = 0.0
+        tests = test_poses_integral + test_negs_integral
+        drop_count = defaultdict(int)
+        for i in range(len(tests)):
+            image = tests[i]
+            cas_guess = 1
+            for j in range(len(classifiers)):
+                classifier = classifiers[j]
+                cop1 = 0.0
+                cop2 = 0.0
+                drop_count = 0.0
+                for feature in classifier:
+                    simple_guess = feature.feature_classifier(image)
+                    cop1 += simple_guess * feature.alpha
+                    cop2 += 0.5 * feature.alpha
+
+                if cop1 >= cop2:
+                    guess = 1
+                else:
+                    guess = 0
+
+                if guess == 0:
+                    drop_count[j] += 1
+                    cas_guess = 0
+
+            if i < len(test_poses_integral) and cas_guess == 1:
+                accuracy += 1
+            elif i < len(test_poses_integral) and cas_guess == 0:
+                pass
+            elif i >= len(test_poses_integral) and cas_guess == 0:
+                accuracy += 1
+            elif i >= len(test_poses_integral) and cas_guess == 1:
+                pass
+
+        print('Accuracy: %f' % (accuracy / len(tests)), file = file)
+        for r in range(3):
+            print('Round %d drops %d images' % (r, drop_count[r]))
 
 
 if __name__ == "__main__":
     part1()
     part2()
     part3()
+    part4()
 

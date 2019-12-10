@@ -4,7 +4,6 @@ def get_integral_image(img_array):
 
 
     sum_by_row = np.zeros(img_array.shape)
-    # we need an additional column and row
     row = img_array.shape[0]
     column = img_array.shape[1]
     integral_array = np.zeros((row + 1, column + 1))
@@ -22,14 +21,12 @@ FEATURE = ((1, 2), (2, 1), (1, 3), (3, 1), (2, 2))
 
 
 class HaarFeature(object):
-    """
-    class for haar-like feature
-    """
+
+
 
     def __init__(self, f_type, pos, width, height, threshold, parity):
-        """
-        initialize a new haar-like feature
-        """
+
+
         self.type = f_type
         self.t_left = pos
         self.b_right = (pos[0] + width, pos[1] + height)
@@ -115,28 +112,25 @@ class HaarFeature(object):
             b_right_np_3 = (int(self.t_left[0] + self.width / 2), self.b_right[1])
             t_left_np_4 = (int(self.t_left[0] + self.width / 2), int(self.t_left[1] + self.height / 2))
             b_right_np_4 = self.b_right
-            # top left
             sum_1 = self.get_sum(integral_array, t_left_np_1, b_right_np_1)
-            # top right
             sum_2 = self.get_sum(integral_array, t_left_np_2, b_right_np_2)
-            # bottom left
             sum_3 = self.get_sum(integral_array, t_left_np_3, b_right_np_3)
-            # bottom right
             sum_4 = self.get_sum(integral_array, t_left_np_4, b_right_np_4)
             diff = sum_1 - sum_2 - sum_3 + sum_4
         return diff
 
     def feature_classifier(self, img_array):
         diff = self.get_score(img_array)
-        if self.parity * diff < self.parity * self.threshold:
+
+
+        if self.parity * diff < self.parity *self.threshold:
+
             return 1
         else:
             return 0
 
 def get_feature_list(img_width, img_height):
-    '''
-    generate all possible features for given image size and max feature size
-    '''
+
     f_names = ["two_vertical", "two_horizontal", "three_vertical", "three_horizontal", "four"]
     f_list = []
     max_f_width = 8
@@ -145,16 +139,14 @@ def get_feature_list(img_width, img_height):
     f_num = {}
 
     for i in range(5):
-        f_cnt = 0  # number of features of certain type
+        f_cnt = 0
         f_min_width = FEATURE[i][0]
         f_min_height = FEATURE[i][1]
         f_name = f_names[i]
 
-        # feature size with unit size of (1, 2), (2, 1), (1, 3), (3, 1), (2, 2)
         for f_width in range(f_min_width, max_f_width + 1, f_min_width):
             for f_height in range(f_min_height, max_f_height + 1, f_min_height):
 
-                # different possible positions (indexed by top left corner)
                 for x in range(img_width - f_width + 1):
                     for y in range(img_height - f_height + 1):
                         feature_1 = HaarFeature(FEATURE[i], (x, y), f_width, f_height, 0, 1)

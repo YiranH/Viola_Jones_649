@@ -1,14 +1,22 @@
 ## Course project for ECEN 649
 
-1. Environment and Packages
+1. **Environment and Packages**
 
    The code is implemented in Python 3.6.1. 
 
-   To run the code, you need to install 4 packages: numpy, pillow, matplotlib and pickle. Numpy is used for efficient numerical calculations, pillow is used for opening, manipulating, saving image files, and converting images to arrays, matplotlib is for drawing the top 1 feature as required in the project instruction, pickle is used for storing intermediate results.
+   To run the code, you need to install 4 packages: numpy, pillow, matplotlib, scikit-learn and pickle. 
 
-   There are also several modules used in this code: os, sys, which is used for interacting operating system to input and output data.
+   Numpy is used for efficient numerical calculations. 
 
-2. How to run the code
+   Pillow is used for opening and saving image files and converting images to arrays.
+
+   Matplotlib is for drawing the top 1 feature as required in the project instruction.
+
+   Pickle is used for storing intermediate results, which I used mainly for debugging.
+
+   There are also several modules imported in this code: os and sys, which is used for interacting operating system to input and output data.
+
+2. **How to run the code**
 
    In the same directory where the provided code and data are, you can run the code:
 
@@ -16,4 +24,18 @@
 
    (The codes are written in macOS environment. I'm not sure the instructions are right for Windows environment.)
 
-   The results are stored in the same directory named "part1.txt", "part2.txt", "part3.txt"
+   The results are stored in the same directory named "part1.txt", "part2.txt", "part3.txt".
+
+3. **Codes**
+
+   **haar.py** is used for generating features and get intergral image.
+
+   **adaboost.py** is used for adaboost training.
+
+   **cascade.py** is used for the cascading system.
+
+   **main.py** is used for running the different parts of the algorithm. 
+
+   **helper.py** is used for calculating accuracy, false positive rate, false negative rate, etc.
+
+   **plot.ipynb** is used for drawing plots in the report
